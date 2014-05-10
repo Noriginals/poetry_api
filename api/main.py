@@ -1,6 +1,13 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template
+from flask_wtf.csrf import CsrfProtect
 
+from forms import PoetrySearchForm
+
+csrf = CsrfProtect()
 app = Flask(__name__)
+app.config.from_object('config')
+csrf.init_app(app)
+
 
 def limerick():
     limericks = list()
@@ -11,6 +18,14 @@ def limerick():
 
     return limericks
 
+@app.route('/', methods=('GET', 'POST'))
+def index():
+    form = PoetrySearchForm()
+    if form.validate_on_submit():
+        #return render_template('index.html')
+        print 'Awesome'
+    return render_template('index.html', form=form)
+
 @app.route('/stream')
 def stream_feed():
     def generate():
@@ -19,5 +34,4 @@ def stream_feed():
     return Response(generate(), mimetype='text/plain')
 
 if __name__ == '__main__':
-    print 'Good afternoon'
     app.run()
