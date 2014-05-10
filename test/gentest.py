@@ -3,9 +3,9 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 
-def gentest():
+def gentest(f):
     limericks = list()
-    with open('limerick.txt') as f:
+    with open(f) as f:
         for line in f:
             if len(line.strip()):
                 limericks.append(line)
