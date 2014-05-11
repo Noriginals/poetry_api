@@ -38,16 +38,32 @@ def generate_freeverse():
     return freeverse
 
 def generate_couplets():
-    source = open(app.config['SOURCE'])
+    source = app.config['COUPLETS_SOURCE']
 
     def couplets():
-        #coupler = Coupler()
-        couler = None
-        for line in source:
-            print line
-            result = coupler.add_line(line)
-            if result:
-                yield "<div>{0}</div>".format(result)
+        with open(source) as f:
+            line_one = None
+            count = 0
+            for line in f:
+                if len(line.rstrip()):
+                    if line_one:
+                        yield """
+                        <div class="panel panel-default" style="display:inline-block;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Couplet #{0}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>{1}</div>
+                                <div>{2}</div>
+                            </div>
+                        </div>""".format(count, line_one, line)
+
+                        count += 1
+                        line_one = None
+                        time.sleep(1)
+
+                    else:
+                        line_one = line
     return couplets
 
 def generate_haiku():
@@ -64,7 +80,7 @@ def generate_haiku():
                     yield """
                     <div class="panel panel-default" style="display:inline-block;">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Haiku {0}</h3>
+                            <h3 class="panel-title">Haiku #{0}</h3>
                         </div>
                         <div class="panel-body">
                             <div>{1}</div>

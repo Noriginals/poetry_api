@@ -51,13 +51,18 @@
             <form id='search' method="POST" action="">
                 {{ form.csrf_token }}
                 <div>
-                    <div>{{ form.styles.label }} {{ form.styles }}</div>
-                    <div id="topics-wrapper" style="display:none;">{{ form.topics.label }} {{ form.topics }}</div>
+                    <div style="display: inline-block; margin-right: 10px;" >
+                        {{ form.styles.label }} {{ form.styles }}
+                    </div>
+                    <div id="topics-wrapper" style="display:none;">
+                        {{ form.topics.label }} {{ form.topics }}
+                    </div>
+                    <div style="display: inline-block">
+                        <input type="submit" value="Go">
+                    </div>
                 </div>
-
-                <input type="submit" value="Go">
             </form>
         </div>
-            <div class="list-group" id="data">No data</div>
+        <div class="list-group" id="data">No data</div>
     </body>
 </html>
