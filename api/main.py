@@ -6,7 +6,7 @@ from flask import Flask, Response, render_template
 
 from app import app, csrf
 from forms import PoetrySearchForm
-from generators import generate_freeverse
+from generators import generate_freeverse, generate_couplets
 
 def stream_template(template_name, **context):
     app.update_template_context(context)
@@ -23,12 +23,16 @@ def index():
 
         # Build Filters
         data = form.data
-        generator = generate_freeverse()
+        styles = data.get('styles', None)
+        generator = None
+
+        if styles == 'couplets':
+            generator = generate_couplets()
+        elif styles == 'free-verse':
+            generator = generate_freeverse()
 
         # Stream
         return Response(generator(), mimetype='text/event-stream')
-        #return Response(line_iter(source, filters, delay=5), mimetype='text/event-stream')
-        #return Response(stream_template('snippet.html', data=line_iter(source, filters)))
 
     return render_template('index.html', form=form)
 

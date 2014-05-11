@@ -1,4 +1,4 @@
-from poetryutils2 import filters as poetry_filters, line_iter
+from poetryutils2 import filters as poetry_filters, line_iter, Coupler
 from app import app
 import time
 
@@ -17,3 +17,15 @@ def generate_freeverse():
             yield "<div>{0}</div>".format(rec)
             time.sleep(1)
     return freeverse
+
+def generate_couplets():
+    source = open(app.config['SOURCE'])
+
+    def couplets():
+        coupler = Coupler()
+        for line in source:
+            print line
+            result = coupler.add_line(line)
+            if result:
+                yield "<div>{0}</div>".format(result)
+    return couplets

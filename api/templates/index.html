@@ -40,13 +40,8 @@
             <form id='search' method="POST" action="">
                 {{ form.csrf_token }}
                 <div>
-                    <div>{{ form.syllabus.label }} {{ form.syllabus(size=20) }}</div>
-                    <div>{{ form.letter_ratio.label }} {{ form.letter_ratio(size=3) }}</div>
-                    <div>
-                        <div>Filter</div>
-                        <div>{{ form.url }} {{ form.url.label }}</div>
-                        <div>{{ form.emoji }} {{ form.emoji.label }}</div>
-                    </div>
+                    <div>{{ form.styles.label }} {{ form.styles }}</div>
+                    <div>{{ form.topics.label }} {{ form.topics }}</div>
                 </div>
 
                 <input type="submit" value="Search">

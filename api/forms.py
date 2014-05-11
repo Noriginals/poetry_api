@@ -1,10 +1,9 @@
 from flask_wtf import Form
-from wtforms import TextField, BooleanField, DecimalField
+from wtforms import TextField, BooleanField, DecimalField, SelectField
 from wtforms.validators import DataRequired, NumberRange
 
+import constants
+
 class PoetrySearchForm(Form):
-    url = BooleanField('Remove URLs')
-    emoji = BooleanField('Remove Emoji')
-    letter_ratio = DecimalField('Letter Ratio', places=3, validators=[NumberRange(1, 100)]) # 0 to 1
-    syllabus = TextField('Syllabus Format')
-    blacklist = TextField('Blacklist')
+    styles = SelectField('Poetry Styles', choices=constants.POETRY_STYLES)
+    topics = SelectField('Topics', choices=constants.TOPICS)
