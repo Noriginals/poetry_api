@@ -31,14 +31,8 @@ def index():
 
         source = open(app.config['SOURCE'])
 
-        # Return Generator
-        def generate():
-            for rec in line_iter(source, filters):
-                yield rec
-                time.sleep(0.3)
-
         # Stream
-        return Response(generate(), mimetype='text/event-stream')
+        return Response(line_iter(source, filters), mimetype='text/event-stream')
 
     return render_template('index.html', form=form)
 
