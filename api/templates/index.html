@@ -1,18 +1,56 @@
 <html>
-    <body>
-        <form method="POST" action="/">
-            {{ form.csrf_token }}
-            <div>
-                <div>{{ form.syllabus.label }} {{ form.syllabus(size=20) }}</div>
-                <div>{{ form.letter_ratio.label }} {{ form.letter_ratio(size=3) }}</div>
-                <div>
-                    <div>Filter</div>
-                    <div>{{ form.url }} {{ form.url.label }}</div>
-                    <div>{{ form.emoji }} {{ form.emoji.label }}</div>
-                </div>
-            </div>
+    <head>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            //if (!!window.EventSource) {
+            //  var source = new EventSource('/');
+            //  source.onmessage = function(e) {
+            //    $("#data").text(e.data);
+            //  }
+            //}
 
-            <input type="submit" value="Search">
-        </form>
+            $(document).ready(function(){
+                console.log('On load');
+                $("#search").bind('submit', function (e) {
+                    console.log('Event Fired');
+                    e.preventDefault();
+                    $("#data").text('');
+
+                    var xhr = new XMLHttpRequest();
+                    var url = "/";
+                    var params = $('#search').serialize();
+                    xhr.open("POST", url, true);
+
+                    xhr.onprogress = function(){
+                        console.log(this.responseText.length);
+                        $("#data").text(this.responseText);
+                    }
+                    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xhr.send(params);
+
+                });
+            });
+
+        </script>
+        </head>
+    <body>
+        <div id='form'>
+            <form id='search' method="POST" action="">
+                {{ form.csrf_token }}
+                <div>
+                    <div>{{ form.syllabus.label }} {{ form.syllabus(size=20) }}</div>
+                    <div>{{ form.letter_ratio.label }} {{ form.letter_ratio(size=3) }}</div>
+                    <div>
+                        <div>Filter</div>
+                        <div>{{ form.url }} {{ form.url.label }}</div>
+                        <div>{{ form.emoji }} {{ form.emoji.label }}</div>
+                    </div>
+                </div>
+
+                <input type="submit" value="Search">
+            </form>
+        </div>
+        <div>Search Results</div>
+        <div id="data">No data</div>
     </body>
 </html>
