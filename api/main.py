@@ -6,7 +6,7 @@ from flask import Flask, Response, render_template
 
 from app import app, csrf
 from forms import PoetrySearchForm
-from generators import generate_freeverse, generate_couplets
+from generators import generate_freeverse, generate_couplets, generate_haiku, generate_limerick
 
 def stream_template(template_name, **context):
     app.update_template_context(context)
@@ -30,6 +30,10 @@ def index():
             generator = generate_couplets()
         elif styles == 'free-verse':
             generator = generate_freeverse()
+        elif styles == 'haiku':
+            generator = generate_haiku()
+        elif styles == 'limerick':
+            generator = generate_limerick()
 
         # Stream
         return Response(generator(), mimetype='text/event-stream')
