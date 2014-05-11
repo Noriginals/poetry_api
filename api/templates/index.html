@@ -31,6 +31,17 @@
                     xhr.send(params);
 
                 });
+                // Hide additional filter by default
+                $("#styles").bind('change', function (e) {
+                    style = $("#styles").val();
+                    if (style === "free-verse")
+                    {
+                        $("#topics-wrapper").show();
+                    }
+                    else{
+                        $("#topics-wrapper").hide();
+                    }
+                });
             });
 
         </script>
@@ -41,7 +52,7 @@
                 {{ form.csrf_token }}
                 <div>
                     <div>{{ form.styles.label }} {{ form.styles }}</div>
-                    <div>{{ form.topics.label }} {{ form.topics }}</div>
+                    <div id="topics-wrapper" style="display:none;">{{ form.topics.label }} {{ form.topics }}</div>
                 </div>
 
                 <input type="submit" value="Go">
