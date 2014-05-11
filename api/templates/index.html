@@ -15,9 +15,7 @@
             //}
 
             $(document).ready(function(){
-                console.log('On load');
                 $("#search").bind('submit', function (e) {
-                    console.log('Event Fired');
                     e.preventDefault();
                     $("#data").text('');
 
@@ -27,9 +25,6 @@
                     xhr.open("POST", url, true);
 
                     xhr.onprogress = function(){
-                        console.log('------')
-                        console.log(this.responseText);
-                        console.log('------')
                         $("#data").html(this.responseText);
                     }
                     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -49,7 +44,7 @@
                     <div>{{ form.topics.label }} {{ form.topics }}</div>
                 </div>
 
-                <input type="submit" value="Search">
+                <input type="submit" value="Go">
             </form>
         </div>
             <div class="list-group" id="data">No data</div>

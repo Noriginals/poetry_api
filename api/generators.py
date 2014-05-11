@@ -12,10 +12,29 @@ def generate_freeverse():
     filters.append(poetry_filters.emoticons)
 
     def freeverse():
+        poem = list()
+        count = 0
         for rec in line_iter(source, filters):
-            print rec
-            yield "<div>{0}</div>".format(rec)
-            time.sleep(0.3)
+            poem.append(rec)
+            if len(poem) == 5:
+                yield """
+                    <div class="panel panel-default" style="display:inline-block;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Free verse {0}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>{1}</div>
+                            <div>{2}</div>
+                            <div>{3}</div>
+                            <div>{4}</div>
+                            <div>{5}</div>
+                        </div>
+                    </div>""".format(count, poem[0], poem[1], poem[2], poem[3], poem[4])
+
+                count += 1
+                poem = list()
+                time.sleep(0.3)
+
     return freeverse
 
 def generate_couplets():
