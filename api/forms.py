@@ -5,6 +5,6 @@ from wtforms.validators import DataRequired, NumberRange
 class PoetrySearchForm(Form):
     url = BooleanField('Remove URLs')
     emoji = BooleanField('Remove Emoji')
-    letter_ratio = DecimalField('Letter Ratio', places=3, validators=[NumberRange(0, 1)]) # 0 to 1
+    letter_ratio = DecimalField('Letter Ratio', places=3, validators=[NumberRange(1, 100)]) # 0 to 1
     syllabus = TextField('Syllabus Format')
     blacklist = TextField('Blacklist')

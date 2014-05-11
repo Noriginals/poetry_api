@@ -1,16 +1,19 @@
-from flask import Flask, Response, render_template
-from flask_wtf.csrf import CsrfProtect
+
+from __future__ import division
 import time
 
-from poetryutils2 import filters as poetry_filters, line_iter
+from flask import Flask, Response, render_template
 
+from app import app, csrf
 from forms import PoetrySearchForm
+from generators import generate_freeverse
 
-# CSRF Protection
-csrf = CsrfProtect()
-app = Flask(__name__)
-app.config.from_object('config')
-csrf.init_app(app)
+def stream_template(template_name, **context):
+    app.update_template_context(context)
+    t = app.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    rv.enable_buffering(5)
+    return rv
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -20,19 +23,12 @@ def index():
 
         # Build Filters
         data = form.data
-        filters = []
-
-        if data['letter_ratio']:
-            filters.append(poetry_filters.low_letter_filter(data['letter_ratio']))
-        if data['url']:
-            filters.append(poetry_filters.url_filter)
-        if data['emoji']:
-            filters.append(poetry_filters.emoticons)
-
-        source = open(app.config['SOURCE'])
+        generator = generate_freeverse()
 
         # Stream
-        return Response(line_iter(source, filters), mimetype='text/event-stream')
+        return Response(generator(), mimetype='text/event-stream')
+        #return Response(line_iter(source, filters, delay=5), mimetype='text/event-stream')
+        #return Response(stream_template('snippet.html', data=line_iter(source, filters)))
 
     return render_template('index.html', form=form)
 

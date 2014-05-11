@@ -22,8 +22,10 @@
                     xhr.open("POST", url, true);
 
                     xhr.onprogress = function(){
-                        console.log(this.responseText.length);
-                        $("#data").text(this.responseText);
+                        console.log('------')
+                        console.log(this.responseText);
+                        console.log('------')
+                        $("#data").html(this.responseText);
                     }
                     xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                     xhr.send(params);
